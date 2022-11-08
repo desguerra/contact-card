@@ -1,5 +1,7 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
+const {InjectManifest} = require('workbox-webpack-plugin');
+
 /* The output filename can be any name that describes the contents. 
 In the webpack docs, the basic setup uses main.js. However, here we 
 are changing the name to bundle.js because we refer to our content 
@@ -7,7 +9,8 @@ inside that file as our bundle throughout the lesson. So this is
 just a chore to make sure we can easily find our bundle file later on! */
 
 const path = require('path');
-  module.exports = {
+
+module.exports = {
     mode: 'development',
     entry: './src/js/index.js',
     output: {
@@ -42,6 +45,10 @@ const path = require('path');
       new HtmlWebpackPlugin({
         template: './index.html',
         title: 'Webpack Plugin',
-      })
+      }),
+      new InjectManifest({
+        swSrc: './src/sw.js',
+        swDest: 'service-worker.js',
+      }),
     ]
-  };
+};
